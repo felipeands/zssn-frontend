@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Http, Headers } from '@angular/http';
 
 @Injectable()
-export class SurvivorService {
+export class PeopleService {
 
   private headers: Headers;
 
@@ -11,13 +11,9 @@ export class SurvivorService {
   ) { }
 
   setHeaders() {
-    // if (!this.headers) {
-    //   return this.headers;
-    // } else {
-      this.headers = new Headers();
-      this.headers.append('Content-Type', 'application/x-www-form-urlencoded');
-      return this.headers;
-    // }
+    this.headers = new Headers();
+    this.headers.append('Content-Type', 'application/x-www-form-urlencoded');
+    return this.headers;
   }
 
   add(params: any) {
@@ -35,8 +31,6 @@ export class SurvivorService {
       `gender=${params.gender}`,
       `items=${inventory}`
     ];
-
-    console.log(data);
 
     return new Promise((resolve, reject) => {
 

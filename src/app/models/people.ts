@@ -1,7 +1,7 @@
 import { Position } from './position';
 import { Inventory } from './inventory';
 
-export class Survivor {
+export class People {
   constructor(
     public name: string,
     public age: number,

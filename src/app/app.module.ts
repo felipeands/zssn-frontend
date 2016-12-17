@@ -9,21 +9,21 @@ import { ROUTES } from './app.routes';
 
 // pages
 import { HomeComponent } from './pages/home/home.component';
-import { SurvivorComponent } from './pages/survivor/survivor.component';
+import { PeopleComponent } from './pages/people/people.component';
 import { NewComponent } from './pages/new/new.component';
 
 // components
 import { SearchComponent } from './components/search/search.component';
 
 // providers
-import { SurvivorService } from './providers/survivor/survivor.service';
+import { PeopleService } from './providers/people/people.service';
 import { ReportService } from './providers/report/report.service';
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
-    SurvivorComponent,
+    PeopleComponent,
     NewComponent,
     SearchComponent
   ],
@@ -33,7 +33,7 @@ import { ReportService } from './providers/report/report.service';
     HttpModule,
     RouterModule.forRoot(ROUTES, { useHash: true, preloadingStrategy: PreloadAllModules })
   ],
-  providers: [SurvivorService, ReportService],
+  providers: [PeopleService, ReportService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

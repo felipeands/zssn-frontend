@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { SurvivorService } from '../../providers/survivor/survivor.service';
+import { PeopleService } from '../../providers/people/people.service';
 
 import { Position } from '../../models/position';
 
 @Component({
   selector: 'app-new',
   templateUrl: './new.component.html',
-  providers: [SurvivorService]
+  providers: [PeopleService]
 })
 export class NewComponent implements OnInit {
 
@@ -30,7 +30,7 @@ export class NewComponent implements OnInit {
   ];
 
   constructor(
-    private survivorService: SurvivorService
+    private peopleService: PeopleService
   ) { }
 
   ngOnInit() { }
@@ -38,9 +38,7 @@ export class NewComponent implements OnInit {
   onSubmit(form: any) {
     this.submitted = true;
 
-    console.log(form);
-
-    this.survivorService.add(form.value).then((res: any) => {
+    this.peopleService.add(form.value).then((res: any) => {
       setTimeout(() => {
         this.submitted = false;
       }, 2000);
