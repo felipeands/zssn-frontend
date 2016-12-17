@@ -1,0 +1,32 @@
+$gray0: #666;
+$brown0: brown;
+
+@import './app/app.component';
+@import './app/pages/new/new.component';
+
+html, body {
+  margin: 0;
+  color: $gray0;
+  font-size: 13px;
+  font-family: Verdana;
+}
+
+.container {
+  max-width: 1070px;
+  margin: 0 auto;
+}
+
+form {
+  .alert {
+    font-size: 11px;
+    color: darkorange;
+  }
+
+  .field {
+    margin-bottom: 20px;
+  }
+}
+
+main {
+  padding-top: 30px;
+}
