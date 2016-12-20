@@ -69,6 +69,7 @@ export class PeopleService {
         (res) => { resolve(this.processPeople(res.json())) },
         (err) => { reject(err.json()) }
         );
+
     });
   }
 

@@ -33,7 +33,7 @@ export class PeopleComponent implements OnInit {
             this.itsMe = true;
           }
         })
-      })
+      });
     }
   }
 
