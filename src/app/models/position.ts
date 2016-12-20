@@ -1,6 +1,6 @@
 export class Position {
   constructor(
-    lat: string,
-    lng: string
+    public latitude: string,
+    public longitude: string
   ) { }
 }

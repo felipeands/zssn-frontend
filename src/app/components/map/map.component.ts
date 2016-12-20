@@ -1,4 +1,4 @@
-import { Component, Output, EventEmitter, OnInit } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
 import { Position } from '../../models/position';
 import { Config } from '../../config';
 
@@ -13,6 +13,7 @@ declare var window: any;
 })
 export class MapComponent implements OnInit {
 
+  @Input("last-position") lastPosition: Position;
   @Output("position") positionEvent: EventEmitter<any> = new EventEmitter();
 
   public mapInitialized: boolean;
@@ -27,12 +28,21 @@ export class MapComponent implements OnInit {
     return new Promise((resolve) => {
       this.loadMap();
       this.waitGoogleMaps().then((win) => {
-        this.getUpdatedPos().then((latLng: any) => {
-          this.updatePosition(latLng.latitude, latLng.longitude);
+
+        if (this.lastPosition) {
+          this.updatePosition(this.lastPosition.latitude, this.lastPosition.longitude);
           this.initMap();
           this.addMarker(this.latLng);
           resolve();
-        })
+        } else {
+          this.getUpdatedPos().then((latLng: any) => {
+            this.updatePosition(latLng.latitude, latLng.longitude);
+            this.initMap();
+            this.addMarker(this.latLng);
+            resolve();
+          })
+        }
+        
       });
     });
   }
@@ -42,7 +52,7 @@ export class MapComponent implements OnInit {
     if (sdk == false) {
       setTimeout(() => {
         window.initMap();
-      })
+      }, 600)
     }
   }
 
@@ -77,7 +87,7 @@ export class MapComponent implements OnInit {
     return new Promise((resolve, reject) => {
 
       if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition((pos) => {
+        navigator.geolocation.getCurrentPosition((pos: any) => {
           this.updatePosition(pos.coords.latitude, pos.coords.longitude);
           resolve(pos.coords);
         })

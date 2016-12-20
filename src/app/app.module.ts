@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { RouterModule, PreloadAllModules } from '@angular/router';
 
+import { LocalStorageModule } from 'angular-2-local-storage';
 import { AppComponent } from './app.component';
 import { ROUTES } from './app.routes';
 
@@ -33,7 +34,11 @@ import { ReportService } from './providers/report/report.service';
     BrowserModule,
     FormsModule,
     HttpModule,
-    RouterModule.forRoot(ROUTES, { useHash: true, preloadingStrategy: PreloadAllModules })
+    RouterModule.forRoot(ROUTES, { useHash: true, preloadingStrategy: PreloadAllModules }),
+    LocalStorageModule.withConfig({
+      prefix: 'zssn',
+      storageType: 'localStorage'
+    })
   ],
   providers: [PeopleService, ReportService],
   bootstrap: [AppComponent]
