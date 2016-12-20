@@ -34,7 +34,7 @@ export class PeopleService {
       `person[name]=${params.name}`,
       `person[age]=${params.age}`,
       `person[gender]=${params.gender}`,
-      `person[lonlat]=POINT (${params.lastPosition.latitude} ${params.lastPosition.longitude})`,
+      `person[lonlat]=${this.convertLocation2Point(params.lastPosition)}`,
       `items=${inventory}`,
     ];
 
@@ -57,7 +57,7 @@ export class PeopleService {
       `person[name]=${people.name}`,
       `person[age]=${people.age}`,
       `person[gender]=${people.gender}`,
-      `person[lonlat]=POINT (${people.lastPosition.latitude} ${people.lastPosition.longitude})`
+      `person[lonlat]=${this.convertLocation2Point(people.lastPosition)}`
     ];
 
     return new Promise((resolve, reject) => {
@@ -86,6 +86,10 @@ export class PeopleService {
   convertPoint2Location(point) {
     let data = point.replace('POINT (', '').replace(')', '').split(' ');
     return new Position(data[0], data[1]);
+  }
+
+  convertLocation2Point(location: Position) {
+    return `POINT (${location.latitude} ${location.longitude})`;
   }
 
   getPeopleById(id: number) {
