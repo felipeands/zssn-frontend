@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { PeopleService } from '../../providers/people/people.service';
 import { MapComponent } from '../../components/map/map.component';
 
@@ -34,19 +35,22 @@ export class NewComponent implements OnInit {
 
   constructor(
     private peopleService: PeopleService,
+    private router: Router
   ) { }
 
   ngOnInit() { }
 
   onSubmit(form: any) {
+    // this.router.navigate(['/people', '0466b072-7b4f-4f05-a8f2-0a2456fa9c2b']);
 
     this.submitted = true;
     form.value.lastPosition = this.position;
 
-    this.peopleService.add(form.value).then((res: any) => {
+    this.peopleService.add(form.value).then((people: any) => {
       this.submitted = false;
-      console.log('res', res);
+      this.router.navigate(['/people', people.id]);
     }, (err) => {
+      alert('It was not possible to register the survivor!')
       this.submitted = false;
     });
 

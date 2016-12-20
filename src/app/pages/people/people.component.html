@@ -1,3 +1,19 @@
-<p>
-  survivor works!
-</p>
+<div class="container">
+
+  <h2>About</h2>
+
+  <div *ngIf="people">
+
+    <b>{{people.name}} profile</b>
+
+    <div class="identify">
+      <button (click)="onIdentify()" [disabled]="itsMe">It's me</button>
+    </div>
+
+    <p>Gender: {{people.gender}}</p>
+
+    <p>Age: {{people.age}}</p>
+
+  </div>
+
+</div>

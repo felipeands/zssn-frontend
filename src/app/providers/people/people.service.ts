@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Http, Headers } from '@angular/http';
+import { People } from '../../models/people';
+import { Position } from '../../models/position';
 import { Config } from '../../config';
 
 @Injectable()
@@ -30,7 +32,7 @@ export class PeopleService {
       `person[name]=${params.name}`,
       `person[age]=${params.age}`,
       `person[gender]=${params.gender}`,
-      `person[lonlat]=point(${params.lastPosition.latitude}, ${params.lastPosition.longitude})`,
+      `person[lonlat]=POINT (${params.lastPosition.latitude} ${params.lastPosition.longitude})`,
       `items=${inventory}`,
     ];
 
@@ -40,12 +42,38 @@ export class PeopleService {
       this.http.post(Config.api_post_people, data.join('&'), {
         headers: this.headers
       }).subscribe(
-        (res) => { resolve(res.json()) },
+        (res) => { resolve(this.processPeople(res.json())) },
         (err) => { reject(err.json()) }
         );
-
     });
 
+  }
+
+  processPeople(data: any) {
+    return new People(
+      data.id,
+      data.name,
+      data.age,
+      data.gender,
+      this.convertPoint2Location(data.lonlat)
+    );
+  }
+
+  convertPoint2Location(point) {
+    let data = point.replace(['POINT (', ')'], '').split(' ');
+    return new Position(
+      data[0],
+      data[1]
+    );
+  }
+
+  getPeopleById(id: number) {
+    return new Promise((resolve, reject) => {
+
+      this.http.get(`${Config.api_get_people}${id}.json`).subscribe(
+        (res) => { resolve(this.processPeople(res.json())) },
+        (err) => { reject() })
+    })
   }
 
 }

@@ -3,10 +3,12 @@ import { Inventory } from './inventory';
 
 export class People {
   constructor(
+    public id: number,
     public name: string,
     public age: number,
     public gender: string,
-    public inventory: Inventory,
-    public lastPosition: Position
+    public lastPosition?: Position,
+    public infected?: boolean,
+    public inventory?: Inventory
   ) { }
 }

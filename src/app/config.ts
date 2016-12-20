@@ -11,5 +11,6 @@ export class Config {
 
   // PEOPLE
   static get api_post_people(): string { return `${Config.api}people.json` };
+  static get api_get_people(): string { return `${Config.api}people/` };
 
 }
