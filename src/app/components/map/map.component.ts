@@ -20,7 +20,7 @@ export class MapComponent implements OnInit {
   public map: any;
   public marker: any;
   public position: Position;
-  
+
   constructor() { }
 
   ngOnInit() {
@@ -40,7 +40,9 @@ export class MapComponent implements OnInit {
   loadMap() {
     let sdk = this.loadSdk();
     if (sdk == false) {
-      window.initMap();
+      setTimeout(() => {
+        window.initMap();
+      })
     }
   }
 

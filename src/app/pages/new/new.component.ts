@@ -18,20 +18,19 @@ export class NewComponent implements OnInit {
   public genderModel: string;
   public lastPositionModel: Position;
   public inventoryModel: Array<number> = [0, 0, 0, 0];
+  public position: Position;
   public submitted: boolean;
 
+  public genderOptions: Array<any> = [
+    { name: 'Female', value: 'F' },
+    { name: 'Man', value: 'M' }
+  ];
   public inventoryOptions: Array<string> = [
     'Ammunition',
     'Food',
     'Medication',
     'Water'
   ];
-  public genderOptions: Array<any> = [
-    { name: 'Female', value: 'f' },
-    { name: 'Man', value: 'm' }
-  ];
-
-  public position: Position;
 
   constructor(
     private peopleService: PeopleService,
@@ -40,7 +39,9 @@ export class NewComponent implements OnInit {
   ngOnInit() { }
 
   onSubmit(form: any) {
+
     this.submitted = true;
+    form.value.lastPosition = this.position;
 
     this.peopleService.add(form.value).then((res: any) => {
       this.submitted = false;
@@ -52,7 +53,6 @@ export class NewComponent implements OnInit {
   }
 
   updatePosition(ev) {
-    console.log(ev);
     this.position = ev;
   }
 

@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Http, Headers } from '@angular/http';
+import { Config } from '../../config';
 
 @Injectable()
 export class PeopleService {
@@ -26,16 +27,17 @@ export class PeopleService {
     ].join(';');
 
     let data: Array<string> = [
-      `name=${params.name}`,
-      `age=${params.age}`,
-      `gender=${params.gender}`,
-      `items=${inventory}`
+      `person[name]=${params.name}`,
+      `person[age]=${params.age}`,
+      `person[gender]=${params.gender}`,
+      `person[lonlat]=point(${params.lastPosition.latitude}, ${params.lastPosition.longitude})`,
+      `items=${inventory}`,
     ];
 
     return new Promise((resolve, reject) => {
 
       this.setHeaders();
-      this.http.post('http://localhost:3000/gallery/add', data.join('&'), {
+      this.http.post(Config.api_post_people, data.join('&'), {
         headers: this.headers
       }).subscribe(
         (res) => { resolve(res.json()) },
