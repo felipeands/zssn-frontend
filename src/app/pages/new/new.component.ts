@@ -1,7 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { PeopleService } from '../../providers/people/people.service';
+import { MapComponent } from '../../components/map/map.component';
 
 import { Position } from '../../models/position';
+
+declare var google: any;
 
 @Component({
   selector: 'app-new',
@@ -17,20 +20,21 @@ export class NewComponent implements OnInit {
   public inventoryModel: Array<number> = [0, 0, 0, 0];
   public submitted: boolean;
 
-  public inventoryOptions: Array<any> = [
+  public inventoryOptions: Array<string> = [
     'Ammunition',
     'Food',
     'Medication',
     'Water'
   ];
-
   public genderOptions: Array<any> = [
     { name: 'Female', value: 'f' },
     { name: 'Man', value: 'm' }
   ];
 
+  public position: Position;
+
   constructor(
-    private peopleService: PeopleService
+    private peopleService: PeopleService,
   ) { }
 
   ngOnInit() { }
@@ -39,13 +43,17 @@ export class NewComponent implements OnInit {
     this.submitted = true;
 
     this.peopleService.add(form.value).then((res: any) => {
-      setTimeout(() => {
-        this.submitted = false;
-      }, 2000);
+      this.submitted = false;
+      console.log('res', res);
     }, (err) => {
       this.submitted = false;
     });
 
+  }
+
+  updatePosition(ev) {
+    console.log(ev);
+    this.position = ev;
   }
 
 }

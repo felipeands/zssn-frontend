@@ -14,6 +14,7 @@ import { NewComponent } from './pages/new/new.component';
 
 // components
 import { SearchComponent } from './components/search/search.component';
+import { MapComponent } from './components/map/map.component';
 
 // providers
 import { PeopleService } from './providers/people/people.service';
@@ -25,7 +26,8 @@ import { ReportService } from './providers/report/report.service';
     HomeComponent,
     PeopleComponent,
     NewComponent,
-    SearchComponent
+    SearchComponent,
+    MapComponent
   ],
   imports: [
     BrowserModule,
