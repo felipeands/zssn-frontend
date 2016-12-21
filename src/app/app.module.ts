@@ -16,9 +16,12 @@ import { NewComponent } from './pages/new/new.component';
 // components
 import { SearchComponent } from './components/search/search.component';
 import { MapComponent } from './components/map/map.component';
+import { MyInventoryComponent } from './components/my-inventory/my-inventory.component';
+import { InventoryComponent } from './components/inventory/inventory.component';
 
 // providers
 import { PeopleService } from './providers/people/people.service';
+import { InventoryService } from './providers/inventory/inventory.service';
 import { ReportService } from './providers/report/report.service';
 
 @NgModule({
@@ -28,7 +31,9 @@ import { ReportService } from './providers/report/report.service';
     PeopleComponent,
     NewComponent,
     SearchComponent,
-    MapComponent
+    MapComponent,
+    MyInventoryComponent,
+    InventoryComponent
   ],
   imports: [
     BrowserModule,
@@ -40,7 +45,7 @@ import { ReportService } from './providers/report/report.service';
       storageType: 'localStorage'
     })
   ],
-  providers: [PeopleService, ReportService],
+  providers: [PeopleService, ReportService, InventoryService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

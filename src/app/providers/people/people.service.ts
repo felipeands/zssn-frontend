@@ -116,7 +116,8 @@ export class PeopleService {
 
       this.http.get(`${Config.api_people}/${id}.json`).subscribe(
         (res) => { resolve(this.processPeople(res.json())) },
-        (err) => { reject() })
+        (err) => { reject() }
+      )
     })
   }
 

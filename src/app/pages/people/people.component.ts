@@ -2,13 +2,14 @@ import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { PeopleService } from '../../providers/people/people.service';
 import { MapComponent } from '../../components/map/map.component';
+import { MyInventoryComponent } from '../../components/my-inventory/my-inventory.component';
+import { InventoryComponent } from '../../components/inventory/inventory.component';
 import { People } from '../../models/people';
 import { Position } from '../../models/position';
 
 @Component({
   selector: 'app-people',
   templateUrl: './people.component.html',
-  styleUrls: ['./people.component.scss'],
   providers: [PeopleService]
 })
 export class PeopleComponent implements OnInit {
@@ -30,11 +31,11 @@ export class PeopleComponent implements OnInit {
     this.paramsSub = this.route.params.subscribe((params: any) => {
       if (params.id) {
         this.peopleService.getPeopleById(params.id).then((people: People) => {
-          this.resetPeople();
+          this.clearPeople();
           this.people = people;
           this.peopleService.verifyItsMe(people).then((result: boolean) => {
             this.itsMe = result;
-          })
+          });
         });
       }
     });
@@ -45,7 +46,7 @@ export class PeopleComponent implements OnInit {
     this.paramsSub.unsubscribe();
   }
 
-  resetPeople() {
+  clearPeople() {
     this.people = null;
     this.showMap = false;
   }

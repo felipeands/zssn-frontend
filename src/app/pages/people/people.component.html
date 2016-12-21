@@ -1,35 +1,45 @@
 <div class="container">
 
-  <h2>About</h2>
+  <div class="profile">
 
-  <div *ngIf="people">
+    <h2>About</h2>
 
-    <b *ngIf="people.name">{{people.name}} profile</b>
+    <div *ngIf="people">
 
-    <div class="identify">
-      <button (click)="onIdentify()" [disabled]="itsMe">It's me</button>
-    </div>
+      <b *ngIf="people.name">{{people.name}} profile</b>
 
-    <p *ngIf="people.gender">Gender: {{people.gender}}</p>
-
-    <p *ngIf="people.age">Age: {{people.age}}</p>
-
-    <div class="position">
-
-      <p>
-        <button (click)="onShowMap()" [disabled]="showMap">Show on map / Update location</button>
-      </p>
-
-      <div *ngIf="showMap">
-        <app-map [last-position]="people.lastPosition" (position)="updatePosition($event)"></app-map>
+      <div class="identify">
+        <button (click)="onIdentify()" [disabled]="itsMe">It's me</button>
       </div>
 
-      <p *ngIf="showMap">
-        <button (click)="onUpdate()">SAVE</button>
-      </p>
+      <p *ngIf="people.gender">Gender: {{people.gender}}</p>
+
+      <p *ngIf="people.age">Age: {{people.age}}</p>
+
+      <app-inventory></app-inventory>
+
+      <div class="position">
+
+        <p>
+          <button (click)="onShowMap()" [disabled]="showMap">Show on map / Update location</button>
+        </p>
+
+        <div *ngIf="showMap">
+          <app-map [last-position]="people.lastPosition" (position)="updatePosition($event)"></app-map>
+        </div>
+
+        <p *ngIf="showMap">
+          <button (click)="onUpdate()">SAVE</button>
+        </p>
+
+      </div>
 
     </div>
 
   </div>
+
+  <aside>
+    <app-my-inventory></app-my-inventory>
+  </aside>
 
 </div>

@@ -11,7 +11,5 @@ export class Config {
 
   // PEOPLE
   static get api_people(): string { return `${Config.api}people` };
-  // static get api_patch_people(): string { return `${Config.api}people/` };
-  // static get api_get_people(): string { return `${Config.api}people/` };
 
 }
