@@ -18,7 +18,7 @@ export class PeopleComponent implements OnInit {
   public itsMe: boolean;
   public showMap: boolean;
   public position: Position;
-  private paramsSub = null;
+  private paramsSub: any;
 
   constructor(
     private router: Router,

@@ -1,26 +1,27 @@
-<h3>Available items</h3>
-
-<div class="item">
-  <button disabled>
-    <div class="name">Ammonition</div>
-    <div class="total">10</div>
+<section *ngIf="inventory">
+  <h3>Available items</h3>
+  <div class="item">
+    <button [disabled]="!canGet.ammunition" (click)="doDeal('ammunition')">
+    <div class="name">Ammunition</div>
+    <div class="total">{{inventory.ammunition}}</div>
   </button>
-</div>
-<div class="item">
-  <button>
+  </div>
+  <div class="item">
+    <button [disabled]="!canGet.food" (click)="doDeal('ammunition')">
     <div class="name">Food</div>
-    <div class="total">10</div>
+    <div class="total">{{inventory.food}}</div>
   </button>
-</div>
-<div class="item">
-  <button disabled>
+  </div>
+  <div class="item">
+    <button [disabled]="!canGet.medication" (click)="doDeal('ammunition')">
     <div class="name">Medication</div>
-    <div class="total">10</div>
+    <div class="total">{{inventory.medication}}</div>
   </button>
-</div>
-<div class="item">
-  <button disabled>
+  </div>
+  <div class="item">
+    <button [disabled]="!canGet.water" (click)="doDeal('ammunition')">
     <div class="name">Water</div>
-    <div class="total">10</div>
+    <div class="total">{{inventory.water}}</div>
   </button>
-</div>
+  </div>
+</section>

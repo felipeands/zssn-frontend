@@ -9,7 +9,7 @@ export class Config {
   static get gmaps_accuracy(): boolean { return true };
   static get gmaps_sensor(): string { return '' }; // '&sensor=true'
 
-  // PEOPLE
+  // PEOPLE API
   static get api_people(): string { return `${Config.api}people` };
 
 }

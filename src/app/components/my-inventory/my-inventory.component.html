@@ -1,28 +1,34 @@
-<h3>My inventory</h3>
-<small>Chose your items to deal</small>
-<ul>
-  <li>
-    <div class="name">Ammunition</div>
-    <div class="total">18</div>
-    <div class="give">
-      <button>-</button> 0 <button>+</button></div>
-  </li>
-  <li>
-    <div class="name">Food</div>
-    <div class="total">18</div>
-    <div class="give">
-      <button>-</button> 0 <button>+</button></div>
-  </li>
-  <li>
-    <div class="name">Medication</div>
-    <div class="total">18</div>
-    <div class="give">
-      <button>-</button> 0 <button>+</button></div>
-  </li>
-  <li>
-    <div class="name">Water</div>
-    <div class="total">18</div>
-    <div class="give">
-      <button>-</button> 0 <button>+</button></div>
-  </li>
-</ul>
+<section *ngIf="inventory">
+  <h3>My inventory</h3>
+  <small>Chose your items to deal</small>
+  <ul>
+    <li>
+      <div class="name">Ammunition</div>
+      <div class="total">{{inventory.ammunition}}</div>
+      <div class="give" *ngIf="!itsMe">
+        <button (click)="decrease('ammunition')" [disabled]="giveAmmunition == 0">-</button> {{giveAmmunition}}
+        <button (click)="increase('ammunition')" [disabled]="inventory.ammunition == 0">+</button></div>
+    </li>
+    <li>
+      <div class="name">Food</div>
+      <div class="total">{{inventory.food}}</div>
+      <div class="give" *ngIf="!itsMe">
+        <button (click)="decrease('food')" [disabled]="giveFood == 0">-</button> {{giveFood}}
+        <button (click)="increase('food')" [disabled]="inventory.food == 0">+</button></div>
+    </li>
+    <li>
+      <div class="name">Medication</div>
+      <div class="total">{{inventory.medication}}</div>
+      <div class="give" *ngIf="!itsMe">
+        <button (click)="decrease('medication')" [disabled]="giveMedication == 0">-</button> {{giveMedication}}
+        <button (click)="increase('medication')" [disabled]="inventory.medication == 0">+</button></div>
+    </li>
+    <li>
+      <div class="name">Water</div>
+      <div class="total">{{inventory.water}}</div>
+      <div class="give" *ngIf="!itsMe">
+        <button (click)="decrease('water')" [disabled]="giveWater == 0">-</button> {{giveWater}}
+        <button (click)="increase('water')" [disabled]="inventory.water == 0">+</button></div>
+    </li>
+  </ul>
+</section>

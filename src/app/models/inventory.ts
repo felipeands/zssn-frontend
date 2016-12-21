@@ -1,8 +1,8 @@
 export class Inventory {
   constructor(
-    public water: number,
+    public ammunition: number,
     public food: number,
     public medication: number,
-    public ammunition: number
+    public water: number
   ) { }
 }

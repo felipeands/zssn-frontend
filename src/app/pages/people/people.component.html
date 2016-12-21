@@ -16,7 +16,7 @@
 
       <p *ngIf="people.age">Age: {{people.age}}</p>
 
-      <app-inventory></app-inventory>
+      <app-inventory [id]="people.id"></app-inventory>
 
       <div class="position">
 
@@ -39,7 +39,7 @@
   </div>
 
   <aside>
-    <app-my-inventory></app-my-inventory>
+    <app-my-inventory [its-me]="itsMe"></app-my-inventory>
   </aside>
 
 </div>

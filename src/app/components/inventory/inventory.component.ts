@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { InventoryService } from '../../providers/inventory/inventory.service';
+import { Inventory } from '../../models/inventory';
 
 @Component({
   selector: 'app-inventory',
@@ -7,9 +9,57 @@ import { Component, OnInit } from '@angular/core';
 })
 export class InventoryComponent implements OnInit {
 
-  constructor() { }
+  @Input() id: number;
+
+  public inventory: Inventory;
+  private inventorySub: any;
+  private offerPoints: number;
+  public canGet: any = {
+    ammunition: false,
+    food: false,
+    medication: false,
+    water: false
+  };
+
+  constructor(
+    private inventoryService: InventoryService
+  ) { }
 
   ngOnInit() {
+    this.inventorySub = this.inventoryService.getOfferPoints().subscribe((offerPoints: number) => {
+      this.offerPoints = offerPoints;
+      this.updateCanGet();
+    })
   }
 
+  ngOnChanges() {
+    this.inventoryService.getInventoryById(this.id).then((inventory: Inventory) => {
+      this.inventory = inventory;
+    })
+  }
+
+  ngOnDestroy() {
+    this.inventorySub.unsubscribe();
+  }
+
+  verifyCanGetItem(type: string) {
+    let need = this.inventoryService.getItemPoints(type);
+    return (need <= this.offerPoints);
+  }
+
+  updateCanGet() {
+    this.canGet = {
+      ammunition: this.inventory.ammunition > 0 && this.verifyCanGetItem('ammunition'),
+      food: this.inventory.food > 0 && this.verifyCanGetItem('food'),
+      medication: this.inventory.medication > 0 && this.verifyCanGetItem('medication'),
+      water: this.inventory.water > 0 && this.verifyCanGetItem('water')
+    }
+  }
+
+  doDeal(type: string) {
+    let yes = confirm(`Do you really need deal for ${type}?`);
+    if (yes) {
+      
+    }
+  }
 }
