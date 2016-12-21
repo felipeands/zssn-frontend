@@ -146,10 +146,6 @@ export class PeopleService {
         (res) => { resolve(this.processPeoples(res.json())) },
         (err) => { reject() }
       )
-
-      setTimeout(() => {
-        resolve();
-      }, 3000)
     })
   }
 

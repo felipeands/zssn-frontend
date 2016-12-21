@@ -4,20 +4,20 @@
 
   <div *ngIf="people">
 
-    <b>{{people.name}} profile</b>
+    <b *ngIf="people.name">{{people.name}} profile</b>
 
     <div class="identify">
       <button (click)="onIdentify()" [disabled]="itsMe">It's me</button>
     </div>
 
-    <p>Gender: {{people.gender}}</p>
+    <p *ngIf="people.gender">Gender: {{people.gender}}</p>
 
-    <p>Age: {{people.age}}</p>
+    <p *ngIf="people.age">Age: {{people.age}}</p>
 
     <div class="position">
 
       <p>
-        <button (click)="onShowMap()" [disabled]="showMap">View in map / Update location</button>
+        <button (click)="onShowMap()" [disabled]="showMap">Show on map / Update location</button>
       </p>
 
       <div *ngIf="showMap">

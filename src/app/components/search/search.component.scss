@@ -6,8 +6,10 @@ form {
     position: absolute;
     padding: 0 10px;
     min-width: 200px;
-    top: 50px;
+    top: 41px;
     left: 0;
+    border: 1px solid #ccc;
+    border-top: none;
     z-index: 99;
 
     ul {

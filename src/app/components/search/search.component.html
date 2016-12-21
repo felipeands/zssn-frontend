@@ -1,8 +1,8 @@
 <form>
   <input type="text" [(ngModel)]="valueModel" (focus)="onGetPeoples()" (keyup)="onChange($event)" name="value" placeholder="find by name"
   />
-  <div class="results">
-    <ul *ngIf="results">
+  <div class="results" *ngIf="results">
+    <ul>
       <li *ngIf="results.length == 0 && valueModel.length > 1">No results</li>
       <li *ngFor="let result of results" class="result" (click)="onOpenPeople(result)">{{result.name}}</li>
     </ul>
