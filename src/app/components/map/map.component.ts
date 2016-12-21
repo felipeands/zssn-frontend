@@ -110,7 +110,7 @@ export class MapComponent implements OnInit {
   initMap() {
     let mapOptions = {
       center: this.latLng,
-      zoom: 19,
+      zoom: 14,
       mapTypeId: google.maps.MapTypeId.ROADMAP
     }
     this.map = new google.maps.Map(document.getElementById('map'), mapOptions);

@@ -17,6 +17,7 @@ export class PeopleComponent implements OnInit {
   public itsMe: boolean;
   public showMap: boolean;
   public position: Position;
+  private paramsSub = null;
 
   constructor(
     private router: Router,
@@ -25,16 +26,28 @@ export class PeopleComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    if (this.route.params['value'].id) {
-      this.peopleService.getPeopleById(this.route.params['value'].id).then((people: People) => {
-        this.people = people;
-        this.peopleService.verifyItsMe(people).then((result: boolean) => {
-          if (result) {
-            this.itsMe = true;
-          }
-        })
-      });
-    }
+
+    this.paramsSub = this.route.params.subscribe((params: any) => {
+      if (params.id) {
+        this.peopleService.getPeopleById(params.id).then((people: People) => {
+          this.resetPeople();
+          this.people = people;
+          this.peopleService.verifyItsMe(people).then((result: boolean) => {
+            this.itsMe = result;
+          })
+        });
+      }
+    });
+
+  }
+
+  ngOnDestroy() {
+    this.paramsSub.unsubscribe();
+  }
+
+  resetPeople() {
+    this.people = null;
+    this.showMap = false;
   }
 
   onIdentify() {
@@ -52,10 +65,7 @@ export class PeopleComponent implements OnInit {
 
   onUpdate() {
     this.people.lastPosition = this.position;
-
-    this.peopleService.update(this.people).then((res) => {
-
-    })
+    this.peopleService.update(this.people).then((res) => { })
   }
 
 }

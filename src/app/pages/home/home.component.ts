@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { PeopleService } from '../../providers/people/people.service';
+import { People } from '../../models/people';
 
 @Component({
   selector: 'app-home',
@@ -7,9 +10,19 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HomeComponent implements OnInit {
 
-  constructor() { }
+  public profile: People;
+
+  constructor(
+    private router: Router,
+    private peopleService: PeopleService
+  ) { }
 
   ngOnInit() {
+    this.profile = this.peopleService.getMyLocalProfile();
+  }
+
+  onOpenProfile() {
+    this.router.navigate(['/people', this.profile.id]);
   }
 
 }

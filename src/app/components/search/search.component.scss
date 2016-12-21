@@ -1,0 +1,28 @@
+form {
+  position: relative;
+
+  .results {
+    background: white;
+    position: absolute;
+    padding: 0 10px;
+    min-width: 200px;
+    top: 50px;
+    left: 0;
+    z-index: 99;
+
+    ul {
+      list-style: none;
+      padding-left: 0;
+
+      li{
+        margin-bottom: 10px;
+        
+        &.result:hover {
+          cursor: pointer;
+          text-decoration: underline;
+        }
+      }
+
+    }
+  }
+}

@@ -40,7 +40,6 @@ export class NewComponent implements OnInit {
   ngOnInit() { }
 
   onSubmit(form: any) {
-    // this.router.navigate(['/people', '0466b072-7b4f-4f05-a8f2-0a2456fa9c2b']);
 
     this.submitted = true;
     form.value.lastPosition = this.position;

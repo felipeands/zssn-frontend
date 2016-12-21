@@ -10,8 +10,8 @@ export class Config {
   static get gmaps_sensor(): string { return '' }; // '&sensor=true'
 
   // PEOPLE
-  static get api_post_people(): string { return `${Config.api}people.json` };
-  static get api_patch_people(): string { return `${Config.api}people/` };
-  static get api_get_people(): string { return `${Config.api}people/` };
+  static get api_people(): string { return `${Config.api}people` };
+  // static get api_patch_people(): string { return `${Config.api}people/` };
+  // static get api_get_people(): string { return `${Config.api}people/` };
 
 }

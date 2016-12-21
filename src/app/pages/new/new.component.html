@@ -39,7 +39,10 @@
       <app-map (position)="updatePosition($event)"></app-map>
     </div>
 
-    <button type="submit" [disabled]="!survivorForm.form.valid || submitted">ADD</button>
+    <p>
+      <button type="submit" [disabled]="!survivorForm.form.valid || submitted">ADD</button>
+    </p>
+
   </form>
 
 
