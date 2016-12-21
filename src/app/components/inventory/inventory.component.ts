@@ -13,6 +13,7 @@ export class InventoryComponent implements OnInit {
 
   public inventory: Inventory;
   private inventorySub: any;
+  private offerItems: Array<string>;
   private offerPoints: number;
   public canGet: any = {
     ammunition: false,
@@ -26,8 +27,9 @@ export class InventoryComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.inventorySub = this.inventoryService.getOfferPoints().subscribe((offerPoints: number) => {
-      this.offerPoints = offerPoints;
+    this.inventorySub = this.inventoryService.getofferItems().subscribe((offerItems: Array<string>) => {
+      this.offerItems = offerItems;
+      this.offerPoints = this.calcOfferPoints(offerItems);
       this.updateCanGet();
     })
   }
@@ -40,6 +42,16 @@ export class InventoryComponent implements OnInit {
 
   ngOnDestroy() {
     this.inventorySub.unsubscribe();
+  }
+
+  calcOfferPoints(items: Array<string>) {
+    let res:number = items.map((item: string) => {
+      return this.inventoryService.getItemPoints(item);
+    }).reduce((total: number, item: number) => {
+      return total + item;
+    }, 0);
+
+    return res;
   }
 
   verifyCanGetItem(type: string) {
@@ -59,7 +71,7 @@ export class InventoryComponent implements OnInit {
   doDeal(type: string) {
     let yes = confirm(`Do you really need deal for ${type}?`);
     if (yes) {
-      
+      // this.
     }
   }
 }

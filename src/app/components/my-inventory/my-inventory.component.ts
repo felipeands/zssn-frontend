@@ -19,7 +19,7 @@ export class MyInventoryComponent implements OnInit {
   public giveFood: number = 0;
   public giveMedication: number = 0;
   public giveWater: number = 0;
-  public givePoints: number = 0;
+  public giveItems: Array<string> = [];
 
   constructor(
     private peopleService: PeopleService,
@@ -77,8 +77,8 @@ export class MyInventoryComponent implements OnInit {
     }
 
     if (canDo) {
-      this.givePoints += this.inventoryService.getItemPoints(type);
-      this.inventoryService.offerMyPoints(this.givePoints);
+      this.giveItems.push(type);
+      this.inventoryService.offerMyItems(this.giveItems);
     }
   }
 
@@ -123,8 +123,11 @@ export class MyInventoryComponent implements OnInit {
     }
 
     if (canDo) {
-      this.givePoints -= this.inventoryService.getItemPoints(type);
-      this.inventoryService.offerMyPoints(this.givePoints);
+      let index = this.giveItems.indexOf(type);
+      if (index > -1) {
+        this.giveItems.splice(index, 1);
+      }
+      this.inventoryService.offerMyItems(this.giveItems);
     }
   }
 

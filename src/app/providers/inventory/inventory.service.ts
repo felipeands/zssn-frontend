@@ -7,7 +7,7 @@ import { Config } from '../../config';
 @Injectable()
 export class InventoryService {
 
-  @Output() offerPoints: EventEmitter<number> = new EventEmitter();
+  @Output() offerItems: EventEmitter<any> = new EventEmitter();
 
   private headers: Headers;
   private inventoryPoints: Array<any> = [
@@ -55,12 +55,12 @@ export class InventoryService {
     return this.inventoryPoints.find((item: any) => { return item.name == type }).points;
   }
 
-  offerMyPoints(points: number) {
-    this.offerPoints.emit(points);
+  offerMyItems(items: Array<string>) {
+    this.offerItems.emit(items);
   }
 
-  getOfferPoints() {
-    return this.offerPoints;
+  getofferItems() {
+    return this.offerItems;
   }
 
 }
