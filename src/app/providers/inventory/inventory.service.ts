@@ -1,6 +1,7 @@
 import { Injectable, EventEmitter, Output } from '@angular/core';
 import { Http, Headers } from '@angular/http';
 import { LocalStorageService } from 'angular-2-local-storage';
+import { PeopleService } from '../people/people.service';
 import { Inventory } from '../../models/inventory';
 import { Config } from '../../config';
 
@@ -8,6 +9,7 @@ import { Config } from '../../config';
 export class InventoryService {
 
   @Output() offerItems: EventEmitter<any> = new EventEmitter();
+  @Output() didTransaction: EventEmitter<any> = new EventEmitter();
 
   private headers: Headers;
   private inventoryPoints: Array<any> = [
@@ -19,7 +21,8 @@ export class InventoryService {
 
   constructor(
     private http: Http,
-    private localStorage: LocalStorageService
+    private localStorage: LocalStorageService,
+    private peopleService: PeopleService
   ) { }
 
   setHeaders() {
@@ -59,8 +62,59 @@ export class InventoryService {
     this.offerItems.emit(items);
   }
 
-  getofferItems() {
+  getOfferItems() {
     return this.offerItems;
+  }
+
+  onDidTransaction() {
+    this.didTransaction.emit();
+  }
+
+  getDidTransaction() {
+    return this.didTransaction;
+  }
+
+  doTransaction(person_id: number, requestedItem: string, offerItems: Array<string>) {
+    return new Promise((resolve, reject) => {
+
+      let data = [
+        `person_id=${person_id}`,
+        `consumer[name]=${this.peopleService.getMyLocalProfile().name}`,
+        `consumer[pick]=${this.capitalizeFirstLetter(requestedItem)}:1`,
+        `consumer[payment]=${this.formatItems(this.countItems(offerItems))}`
+      ];
+
+      this.setHeaders();
+      this.http.post(`${Config.api_people}/${person_id}/properties/trade_item.json`, data.join('&'), {
+        headers: this.headers
+      }).subscribe(
+        (res) => { 
+          this.onDidTransaction();
+          resolve(); 
+        },
+        (err) => { reject() }
+        )
+
+    })
+  }
+
+  capitalizeFirstLetter(text: string) {
+    return `${text.charAt(0).toUpperCase()}${text.slice(1)}`;
+  }
+
+  countItems(offerItems: Array<string>) {
+    return offerItems.reduce((prev: any, cur: any) => {
+      prev[cur] = (prev[cur] || 0) + 1;
+      return prev;
+    }, {});
+  }
+
+  formatItems(obj: any) {
+    let items = [];
+    Object.keys(obj).forEach((key: string) => {
+      items.push(`${this.capitalizeFirstLetter(key)}:${obj[key]}`);
+    });
+    return items.join(';');
   }
 
 }

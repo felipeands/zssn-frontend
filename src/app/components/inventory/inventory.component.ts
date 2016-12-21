@@ -13,6 +13,7 @@ export class InventoryComponent implements OnInit {
 
   public inventory: Inventory;
   private inventorySub: any;
+  private transactionSub: any;
   private offerItems: Array<string>;
   private offerPoints: number;
   public canGet: any = {
@@ -27,14 +28,22 @@ export class InventoryComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.inventorySub = this.inventoryService.getofferItems().subscribe((offerItems: Array<string>) => {
+    this.inventorySub = this.inventoryService.getOfferItems().subscribe((offerItems: Array<string>) => {
       this.offerItems = offerItems;
       this.offerPoints = this.calcOfferPoints(offerItems);
       this.updateCanGet();
+    });
+    this.transactionSub = this.inventoryService.getDidTransaction().subscribe(() => {
+      this.loadInventory();
+      this.resetTransaction();
     })
   }
 
   ngOnChanges() {
+    this.loadInventory();
+  }
+
+  loadInventory() {
     this.inventoryService.getInventoryById(this.id).then((inventory: Inventory) => {
       this.inventory = inventory;
     })
@@ -42,10 +51,11 @@ export class InventoryComponent implements OnInit {
 
   ngOnDestroy() {
     this.inventorySub.unsubscribe();
+    this.transactionSub.unsubscribe();
   }
 
   calcOfferPoints(items: Array<string>) {
-    let res:number = items.map((item: string) => {
+    let res: number = items.map((item: string) => {
       return this.inventoryService.getItemPoints(item);
     }).reduce((total: number, item: number) => {
       return total + item;
@@ -56,7 +66,7 @@ export class InventoryComponent implements OnInit {
 
   verifyCanGetItem(type: string) {
     let need = this.inventoryService.getItemPoints(type);
-    return (need <= this.offerPoints);
+    return (need == this.offerPoints);
   }
 
   updateCanGet() {
@@ -68,10 +78,20 @@ export class InventoryComponent implements OnInit {
     }
   }
 
-  doDeal(type: string) {
-    let yes = confirm(`Do you really need deal for ${type}?`);
+  doTransaction(type: string) {
+    let yes = confirm(`Do you really need that ${type}?`);
     if (yes) {
-      // this.
+      this.inventoryService.doTransaction(this.id, type, this.offerItems).then((res) => {
+        alert("Successfully transferred");
+      }, (err) => {
+        alert("The transaction can't be processed.")
+      })
     }
+  }
+
+  resetTransaction() {
+    this.offerItems = null;
+    this.offerPoints = null;
+    this.updateCanGet();
   }
 }

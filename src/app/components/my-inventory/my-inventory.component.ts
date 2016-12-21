@@ -14,6 +14,8 @@ export class MyInventoryComponent implements OnInit {
   @Input("its-me") itsMe: boolean;
 
   public inventory: Inventory;
+  private transactionSub: any;
+  private profile: People;
 
   public giveAmmunition: number = 0;
   public giveFood: number = 0;
@@ -27,10 +29,20 @@ export class MyInventoryComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    let people = this.peopleService.getMyLocalProfile();
+    this.transactionSub = this.inventoryService.getDidTransaction().subscribe(() => {
+      this.loadInventory();
+      this.resetGive();
+    })
+  }
 
-    if (people) {
-      this.inventoryService.getInventoryById(people.id).then((inventory: Inventory) => {
+  ngOnChanges() {
+    this.profile = this.peopleService.getMyLocalProfile();
+    this.loadInventory();
+  }
+
+  loadInventory() {
+    if (this.profile) {
+      this.inventoryService.getInventoryById(this.profile.id).then((inventory: Inventory) => {
         this.inventory = inventory;
       })
     }
@@ -129,6 +141,14 @@ export class MyInventoryComponent implements OnInit {
       }
       this.inventoryService.offerMyItems(this.giveItems);
     }
+  }
+
+  resetGive() {
+    this.giveAmmunition = 0;
+    this.giveFood = 0;
+    this.giveMedication = 0;
+    this.giveWater = 0;
+    this.giveItems = [];
   }
 
 }
