@@ -24,6 +24,9 @@ import { PeopleService } from './providers/people/people.service';
 import { InventoryService } from './providers/inventory/inventory.service';
 import { ReportService } from './providers/report/report.service';
 
+// pipes
+import { GenderPipe } from './pipes/gender/gender.pipe';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -33,7 +36,8 @@ import { ReportService } from './providers/report/report.service';
     SearchComponent,
     MapComponent,
     MyInventoryComponent,
-    InventoryComponent
+    InventoryComponent,
+    GenderPipe
   ],
   imports: [
     BrowserModule,

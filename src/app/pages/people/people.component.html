@@ -6,15 +6,13 @@
 
     <div *ngIf="people">
 
-      <b *ngIf="people.name">{{people.name}} profile</b>
+      <b *ngIf="people.name">{{people.name}}<span *ngIf="people.age">, {{people.age}}</span></b>
 
       <div class="identify">
         <button (click)="onIdentify()" [disabled]="itsMe">It's me</button>
       </div>
 
-      <p *ngIf="people.gender">Gender: {{people.gender}}</p>
-
-      <p *ngIf="people.age">Age: {{people.age}}</p>
+      <p *ngIf="people.gender">Gender: {{people.gender | gender}}</p>
 
       <app-inventory [id]="people.id"></app-inventory>
 
