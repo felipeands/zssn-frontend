@@ -2,11 +2,11 @@
 
   <div class="profile">
 
-    <h2>About</h2>
+    <h3>About</h3>
 
     <div *ngIf="people">
 
-      <b *ngIf="people.name">{{people.name}}<span *ngIf="people.age">, {{people.age}}</span></b>
+      <div class="name" *ngIf="people.name">{{people.name}}<span *ngIf="people.age">, {{people.age}}</span></div>
 
       <p *ngIf="people.gender">{{people.gender | gender}}</p>
 

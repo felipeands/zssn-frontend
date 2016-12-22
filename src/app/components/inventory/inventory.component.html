@@ -2,25 +2,25 @@
   <h3>Available items</h3>
   <div class="item">
     <button [disabled]="!canGet.ammunition" (click)="doTransaction('ammunition')">
-    <div class="name">Ammunition</div>
+    <div class="title">Ammunition</div>
     <div class="total">{{inventory.ammunition}}</div>
   </button>
   </div>
   <div class="item">
     <button [disabled]="!canGet.food" (click)="doTransaction('food')">
-    <div class="name">Food</div>
+    <div class="title">Food</div>
     <div class="total">{{inventory.food}}</div>
   </button>
   </div>
   <div class="item">
     <button [disabled]="!canGet.medication" (click)="doTransaction('medication')">
-    <div class="name">Medication</div>
+    <div class="title">Medication</div>
     <div class="total">{{inventory.medication}}</div>
   </button>
   </div>
   <div class="item">
     <button [disabled]="!canGet.water" (click)="doTransaction('water')">
-    <div class="name">Water</div>
+    <div class="title">Water</div>
     <div class="total">{{inventory.water}}</div>
   </button>
   </div>

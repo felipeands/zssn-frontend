@@ -3,6 +3,11 @@ app-people {
   .profile {
     float: left;
     width: 80%;
+
+    .name {
+      font-size: 1.2rem;
+    }
+
   }
 
   app-inventory {
