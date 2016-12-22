@@ -30,8 +30,9 @@ export class MyInventoryComponent implements OnInit {
 
   ngOnInit() {
     this.transactionSub = this.inventoryService.getDidTransaction().subscribe(() => {
-      this.loadInventory();
-      this.resetGive();
+      this.loadInventory().then(() => {
+        this.resetGive();
+      });
     })
   }
 

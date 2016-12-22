@@ -35,8 +35,9 @@ export class InventoryComponent implements OnInit {
       this.updateCanGet();
     });
     this.transactionSub = this.inventoryService.getDidTransaction().subscribe(() => {
-      this.loadInventory();
-      this.resetTransaction();
+      this.loadInventory().then(() => {
+        this.resetTransaction();
+      });
     })
   }
 
