@@ -12,9 +12,14 @@ html, body {
   font-family: Verdana;
 }
 
+*:focus {
+  outline: none;
+}
+
 .container {
   max-width: 1070px;
   margin: 0 auto;
+  padding: 0 5px;
 }
 
 form {

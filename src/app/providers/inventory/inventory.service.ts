@@ -74,14 +74,117 @@ export class InventoryService {
     return this.didTransaction;
   }
 
-  doTransaction(person_id: number, requestedItem: string, offerItems: Array<string>) {
+  calcCanGet(type: string, offerItems: Array<string>) {
+
+    let requiredPoints = this.getItemPoints(type);
+
+    // generate array
+    let offerObjs: Array<any> = this.generateArrayItems(offerItems);
+
+    // generate array of min value
+    let minItems: Array<any> = this.selectMinItems(requiredPoints, offerObjs);
+
+    // total of items
+    let totalPoints: number = this.totalPoints(minItems);
+
+    if (totalPoints == 0) { return false }
+
+    // verify is multiple
+    let result: boolean = Number.isInteger(totalPoints / requiredPoints);
+
+    return result;
+  }
+
+  calcQuantities(type: string, offerItems: Array<string>) {
+    return new Promise((resolve) => {
+
+      let requiredPoints = this.getItemPoints(type);
+
+      // generate array
+      let offerObjs: Array<any> = this.generateArrayItems(offerItems);
+
+      // generate array of min value
+      let minItems: Array<any> = this.selectMinItems(requiredPoints, offerObjs);
+
+      // total of items
+      let totalPoints: number = this.totalPoints(minItems);
+
+      let result: boolean = Number.isInteger(totalPoints / requiredPoints);
+
+      let countRequestItems: number = 1;
+
+      while ((countRequestItems * requiredPoints) <= totalPoints) {
+        countRequestItems++;
+      }
+      countRequestItems--;
+
+      let group: Array<any> = this.groupItems(minItems);
+
+      let res = {
+        requestItems: [{ type: type, quantity: countRequestItems }],
+        offerItems: group
+      };
+
+      resolve(res);
+    })
+  }
+
+  groupItems(items: Array<any>) {
+
+    let arr: Array<any> = [];
+
+    items.forEach((item: any) => {
+
+      let index: number = -1;
+
+      for (var i = 0; i < arr.length; i++) {
+        if (arr[i].type === item.type) {
+          index = i;
+          break;
+        }
+      }
+
+      if (index >= 0) {
+        arr[index].quantity++;
+      } else {
+        arr.push({ type: item.type, quantity: 1 });
+      }
+
+    })
+
+    return arr;
+  }
+
+  selectMinItems(requiredPoints: number, offerObjs: Array<any>) {
+    let sum: number = 0;
+
+    let res: Array<any> = offerObjs.filter((item: any) => {
+      if (requiredPoints > sum) {
+        sum += item.value;
+        return item;
+      }
+    })
+
+    return res;
+  }
+
+  totalPoints(items: Array<any>) {
+    return items.reduce((total: number, item: any) => { return item.value + total }, 0);
+  }
+
+  generateArrayItems(offerItems: Array<string>) {
+    let arr = offerItems.map((item: string) => { return { type: item, value: this.getItemPoints(item) } });
+    return arr.sort((a, b) => { return (a.value > b.value) ? 1 : ((b.value > a.value) ? -1 : 0) });
+  }
+
+  doTransaction(person_id: number, requestItems: Array<any>, offerItems: Array<any>) {
     return new Promise((resolve, reject) => {
 
       let data = [
         `person_id=${person_id}`,
         `consumer[name]=${this.peopleService.getMyLocalProfile().name}`,
-        `consumer[pick]=${this.capitalizeFirstLetter(requestedItem)}:1`,
-        `consumer[payment]=${this.formatItems(this.countItems(offerItems))}`
+        `consumer[pick]=${this.convertItems2Text(requestItems)}`,
+        `consumer[payment]=${this.convertItems2Text(offerItems)}`
       ];
 
       this.setHeaders();
@@ -102,19 +205,8 @@ export class InventoryService {
     return `${text.charAt(0).toUpperCase()}${text.slice(1)}`;
   }
 
-  countItems(offerItems: Array<string>) {
-    return offerItems.reduce((prev: any, cur: any) => {
-      prev[cur] = (prev[cur] || 0) + 1;
-      return prev;
-    }, {});
-  }
-
-  formatItems(obj: any) {
-    let items = [];
-    Object.keys(obj).forEach((key: string) => {
-      items.push(`${this.capitalizeFirstLetter(key)}:${obj[key]}`);
-    });
-    return items.join(';');
+  convertItems2Text(items: Array<any>) {
+    return items.map((item: any) => { return `${this.capitalizeFirstLetter(item.type)}:${item.quantity}` }).join(';');
   }
 
 }

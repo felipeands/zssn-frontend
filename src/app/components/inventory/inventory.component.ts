@@ -15,7 +15,6 @@ export class InventoryComponent implements OnInit {
   private inventorySub: any;
   private transactionSub: any;
   private offerItems: Array<string>;
-  private offerPoints: number;
   public canGet: any = {
     ammunition: false,
     food: false,
@@ -30,7 +29,6 @@ export class InventoryComponent implements OnInit {
   ngOnInit() {
     this.inventorySub = this.inventoryService.getOfferItems().subscribe((offerItems: Array<string>) => {
       this.offerItems = offerItems;
-      this.offerPoints = this.calcOfferPoints(offerItems);
       this.updateCanGet();
     });
     this.transactionSub = this.inventoryService.getDidTransaction().subscribe(() => {
@@ -65,8 +63,7 @@ export class InventoryComponent implements OnInit {
   }
 
   verifyCanGetItem(type: string) {
-    let need = this.inventoryService.getItemPoints(type);
-    return (need == this.offerPoints);
+    return this.inventoryService.calcCanGet(type, this.offerItems);
   }
 
   updateCanGet() {
@@ -81,17 +78,20 @@ export class InventoryComponent implements OnInit {
   doTransaction(type: string) {
     let yes = confirm(`Do you really need that ${type}?`);
     if (yes) {
-      this.inventoryService.doTransaction(this.id, type, this.offerItems).then((res) => {
-        alert("Successfully transferred");
-      }, (err) => {
-        alert("The transaction can't be processed.")
+
+      this.inventoryService.calcQuantities(type, this.offerItems).then((res: any) => {
+        this.inventoryService.doTransaction(this.id, res.requestItems, res.offerItems).then((res) => {
+          alert("Successfully transferred");
+        }, (err) => {
+          alert("The transaction can't be processed.")
+        })
       })
+
     }
   }
 
   resetTransaction() {
-    this.offerItems = null;
-    this.offerPoints = null;
+    this.offerItems = [];
     this.updateCanGet();
   }
 }
