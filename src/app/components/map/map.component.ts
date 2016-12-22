@@ -22,26 +22,18 @@ export class MapComponent implements OnInit {
   public marker: any;
   public position: Position;
 
-  constructor() { }
+  constructor() { 
+    this.lastPosition = new Position('-23.5805651', '-46.6576507');
+  }
 
   ngOnInit() {
     return new Promise((resolve) => {
       this.loadMap();
       this.waitGoogleMaps().then((win) => {
-
-        if (this.lastPosition) {
-          this.updatePosition(this.lastPosition.latitude, this.lastPosition.longitude);
-          this.initMap();
-          this.addMarker(this.latLng);
-          resolve();
-        } else {
-          this.getUpdatedPos().then((latLng: any) => {
-            this.updatePosition(latLng.latitude, latLng.longitude);
-            this.initMap();
-            this.addMarker(this.latLng);
-            resolve();
-          })
-        }
+        this.updatePosition(this.lastPosition.latitude, this.lastPosition.longitude);
+        this.initMap();
+        this.addMarker(this.latLng);
+        resolve();
         
       });
     });
