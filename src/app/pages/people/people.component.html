@@ -6,7 +6,7 @@
 
     <div *ngIf="people">
 
-      <div class="name" *ngIf="people.name">{{people.name}}<span *ngIf="people.age">, {{people.age}}</span></div>
+      <div class="people" *ngIf="people.name"><span class="name">{{people.name}}</span><span *ngIf="people.age">, {{people.age}}</span></div>
 
       <p *ngIf="people.gender">{{people.gender | gender}}</p>
 
