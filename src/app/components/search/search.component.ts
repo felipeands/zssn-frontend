@@ -28,9 +28,9 @@ export class SearchComponent implements OnInit {
     return new Promise((resolve) => {
       if (!this.isSearching && !this.peoples) {
         this.isSearching = true;
-        this.peopleService.getAll().then((res: Array<People>) => {
-          res.reverse();
-          this.peoples = res;
+        this.peopleService.getAll().then((peoples: Array<People>) => {
+          peoples.reverse();
+          this.peoples = peoples;
           this.isSearching = false;
           this.processQueue();
           resolve();

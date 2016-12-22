@@ -5,7 +5,7 @@ form {
     background: white;
     position: absolute;
     padding: 0 10px;
-    min-width: 200px;
+    min-width: 230px;
     top: 41px;
     left: 0;
     border: 1px solid #ccc;
@@ -18,11 +18,20 @@ form {
 
       li{
         margin-bottom: 10px;
+        position: relative;
         
         &.result:hover {
           cursor: pointer;
           text-decoration: underline;
         }
+
+        .infected {
+          font-size: 8px;
+          float: right;
+          color: #ccc;
+          padding-top: 5px;
+        }
+
       }
 
     }

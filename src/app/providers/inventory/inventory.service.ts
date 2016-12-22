@@ -1,6 +1,5 @@
 import { Injectable, EventEmitter, Output } from '@angular/core';
 import { Http, Headers } from '@angular/http';
-import { LocalStorageService } from 'angular-2-local-storage';
 import { PeopleService } from '../people/people.service';
 import { Inventory } from '../../models/inventory';
 import { Config } from '../../config';
@@ -21,7 +20,6 @@ export class InventoryService {
 
   constructor(
     private http: Http,
-    private localStorage: LocalStorageService,
     private peopleService: PeopleService
   ) { }
 
@@ -74,7 +72,7 @@ export class InventoryService {
     return this.didTransaction;
   }
 
-  calcCanGet(type: string, offerItems: Array<string>) {
+  calcCanGet(type: string, haveQuantity: number, offerItems: Array<string>) {
 
     let requiredPoints = this.getItemPoints(type);
 
@@ -89,8 +87,11 @@ export class InventoryService {
 
     if (totalPoints == 0) { return false }
 
-    // verify is multiple
-    let result: boolean = Number.isInteger(totalPoints / requiredPoints);
+    // how much requested items need to trade with the minimum offered item
+    let countRequestItems: number = this.calcMinItems(requiredPoints, totalPoints);
+
+    // verify is multiple and have min quantity in inventory
+    let result: boolean = (Number.isInteger(totalPoints / requiredPoints) && (countRequestItems <= haveQuantity));
 
     return result;
   }
@@ -98,7 +99,7 @@ export class InventoryService {
   calcQuantities(type: string, offerItems: Array<string>) {
     return new Promise((resolve) => {
 
-      let requiredPoints = this.getItemPoints(type);
+      let requiredPoints: number = this.getItemPoints(type);
 
       // generate array
       let offerObjs: Array<any> = this.generateArrayItems(offerItems);
@@ -109,24 +110,27 @@ export class InventoryService {
       // total of items
       let totalPoints: number = this.totalPoints(minItems);
 
-      let result: boolean = Number.isInteger(totalPoints / requiredPoints);
-
-      let countRequestItems: number = 1;
-
-      while ((countRequestItems * requiredPoints) <= totalPoints) {
-        countRequestItems++;
-      }
-      countRequestItems--;
+      // how much requested items need to trade with the minimum offered item
+      let countRequestItems: number = this.calcMinItems(requiredPoints, totalPoints);
 
       let group: Array<any> = this.groupItems(minItems);
 
-      let res = {
+      let result = {
         requestItems: [{ type: type, quantity: countRequestItems }],
         offerItems: group
       };
 
-      resolve(res);
+      resolve(result);
     })
+  }
+
+  calcMinItems(requiredPoints: number, totalPoints: number) {
+    let countRequestItems: number = 1;
+    while ((countRequestItems * requiredPoints) <= totalPoints) {
+      countRequestItems++;
+    }
+    countRequestItems--;
+    return countRequestItems
   }
 
   groupItems(items: Array<any>) {
@@ -134,10 +138,8 @@ export class InventoryService {
     let arr: Array<any> = [];
 
     items.forEach((item: any) => {
-
       let index: number = -1;
-
-      for (var i = 0; i < arr.length; i++) {
+      for (let i = 0; i < arr.length; i++) {
         if (arr[i].type === item.type) {
           index = i;
           break;
@@ -149,8 +151,7 @@ export class InventoryService {
       } else {
         arr.push({ type: item.type, quantity: 1 });
       }
-
-    })
+    });
 
     return arr;
   }
@@ -191,9 +192,9 @@ export class InventoryService {
       this.http.post(`${Config.api_people}/${person_id}/properties/trade_item.json`, data.join('&'), {
         headers: this.headers
       }).subscribe(
-        (res) => { 
+        (res) => {
           this.onDidTransaction();
-          resolve(); 
+          resolve();
         },
         (err) => { reject() }
         )

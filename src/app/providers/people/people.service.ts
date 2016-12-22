@@ -79,13 +79,17 @@ export class PeopleService {
       data.id = this.convertUrlLocation2Id(data.location);
     }
 
-    return new People(
+    let people: People = new People(
       data.id,
       data.name,
       data.age,
       data.gender,
       this.convertPoint2Location(data.lonlat)
     );
+
+    if (data['infected?']) { people.infected = data['infected?']; }
+
+    return people;
   }
 
   processPeoples(data: Array<any>) {

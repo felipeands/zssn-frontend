@@ -52,8 +52,10 @@ export class PeopleComponent implements OnInit {
   }
 
   onIdentify() {
-    this.itsMe = true;
-    this.peopleService.defineMe(this.people);
+    if (confirm(`You really is the ${this.people.name}?`)) {
+      this.itsMe = true;
+      this.peopleService.defineMe(this.people);
+    }
   }
 
   onShowMap() {

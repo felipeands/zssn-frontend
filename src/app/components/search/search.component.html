@@ -4,7 +4,7 @@
   <div class="results" *ngIf="results">
     <ul>
       <li *ngIf="results.length == 0 && valueModel.length > 1">No results</li>
-      <li *ngFor="let result of results" class="result" (click)="onOpenPeople(result)">{{result.name}}</li>
+      <li *ngFor="let result of results" class="result" (click)="onOpenPeople(result)"><span class="name">{{result.name}}</span><span class="infected" *ngIf="result.infected">Infected</span></li>
     </ul>
   </div>
 </form>

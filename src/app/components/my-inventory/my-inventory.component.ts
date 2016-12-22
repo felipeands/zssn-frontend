@@ -37,15 +37,20 @@ export class MyInventoryComponent implements OnInit {
 
   ngOnChanges() {
     this.profile = this.peopleService.getMyLocalProfile();
-    this.loadInventory();
+    this.loadInventory().then(() => {
+      this.resetGive();
+    });
   }
 
   loadInventory() {
-    if (this.profile) {
-      this.inventoryService.getInventoryById(this.profile.id).then((inventory: Inventory) => {
-        this.inventory = inventory;
-      })
-    }
+    return new Promise((resolve) => {
+      if (this.profile) {
+        this.inventoryService.getInventoryById(this.profile.id).then((inventory: Inventory) => {
+          this.inventory = inventory;
+          resolve();
+        })
+      }
+    })
   }
 
   increase(type: string) {

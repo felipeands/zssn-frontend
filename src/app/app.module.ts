@@ -10,14 +10,14 @@ import { ROUTES } from './app.routes';
 
 // pages
 import { HomeComponent } from './pages/home/home.component';
-import { PeopleComponent } from './pages/people/people.component';
 import { NewComponent } from './pages/new/new.component';
+import { PeopleComponent } from './pages/people/people.component';
 
 // components
-import { SearchComponent } from './components/search/search.component';
 import { MapComponent } from './components/map/map.component';
-import { MyInventoryComponent } from './components/my-inventory/my-inventory.component';
+import { SearchComponent } from './components/search/search.component';
 import { InventoryComponent } from './components/inventory/inventory.component';
+import { MyInventoryComponent } from './components/my-inventory/my-inventory.component';
 
 // providers
 import { PeopleService } from './providers/people/people.service';
@@ -40,20 +40,20 @@ import { GenderPipe } from './pipes/gender/gender.pipe';
     GenderPipe
   ],
   exports: [
-    SearchComponent
+    MapComponent,
+    SearchComponent,
+    InventoryComponent,
+    MyInventoryComponent
   ],
   imports: [
-    BrowserModule,
-    FormsModule,
     HttpModule,
-    RouterModule.forRoot(ROUTES, { useHash: true, preloadingStrategy: PreloadAllModules }),
-    LocalStorageModule.withConfig({
-      prefix: 'zssn',
-      storageType: 'localStorage'
-    })
+    FormsModule,
+    BrowserModule,
+    LocalStorageModule.withConfig({ prefix: 'zssn', storageType: 'localStorage' }),
+    RouterModule.forRoot(ROUTES, { useHash: true, preloadingStrategy: PreloadAllModules })
   ],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
   providers: [PeopleService, ReportService, InventoryService],
   bootstrap: [AppComponent],
-  schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class AppModule { }
