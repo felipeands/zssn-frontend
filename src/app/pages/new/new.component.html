@@ -24,16 +24,17 @@
       <div class="alert" [hidden]="gender.valid || gender.pristine">Select the gender</div>
     </div>
 
-    <div class="field">
-
+    <div class="field inventory">
       <div class="item" *ngFor="let opt of inventoryOptions; let i = index">
-        <div>{{opt}}</div>
-        <div>
-          <input type="number" [(ngModel)]="inventoryModel[i]" [name]="inventoryOptions[i]" id="inventoryOptions[i]" min="0" required/>
-        </div>
+        <label>
+          <div class="title">{{opt}}</div>
+          <div class="value">
+            <input type="number" [(ngModel)]="inventoryModel[i]" [name]="inventoryOptions[i]" id="inventoryOptions[i]" min="0" required/>
+          </div>
+        </label>
       </div>
-
     </div>
+    <!-- .inventory -->
 
     <div class="field">
       <app-map (position)="updatePosition($event)"></app-map>
