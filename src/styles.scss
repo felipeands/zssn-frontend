@@ -1,4 +1,5 @@
 $gray0: #666;
+$gray1: #ccc;
 $brown0: brown;
 
 @import './app/app.component';
@@ -35,4 +36,21 @@ form {
 
 main {
   padding-top: 30px;
+}
+
+button {
+  padding: 10px 15px;
+  border-radius: 5px;
+  background: white;
+  border: 1px solid $gray1;
+  cursor: pointer;
+
+  &:not([disabled]):hover {
+    border-color: $gray0;
+  }
+  
+  &[disabled] {
+    color: $gray1;
+    cursor: initial;
+  }
 }

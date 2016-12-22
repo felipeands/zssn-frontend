@@ -9,7 +9,7 @@
       <b *ngIf="people.name">{{people.name}}<span *ngIf="people.age">, {{people.age}}</span></b>
 
       <div class="identify">
-        <button (click)="onIdentify()" [disabled]="itsMe">It's me</button>
+        <button (click)="onIdentify()" [disabled]="itsMe">It's me?</button>
       </div>
 
       <p *ngIf="people.gender">Gender: {{people.gender | gender}}</p>
@@ -36,7 +36,7 @@
 
   </div>
 
-  <aside>
+  <aside *ngIf="!itsMe">
     <app-my-inventory [its-me]="itsMe"></app-my-inventory>
   </aside>
 
