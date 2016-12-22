@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { RouterModule, PreloadAllModules } from '@angular/router';
@@ -39,6 +39,9 @@ import { GenderPipe } from './pipes/gender/gender.pipe';
     InventoryComponent,
     GenderPipe
   ],
+  exports: [
+    SearchComponent
+  ],
   imports: [
     BrowserModule,
     FormsModule,
@@ -50,6 +53,7 @@ import { GenderPipe } from './pipes/gender/gender.pipe';
     })
   ],
   providers: [PeopleService, ReportService, InventoryService],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class AppModule { }
