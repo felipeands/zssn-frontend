@@ -5,19 +5,19 @@
   <form (ngSubmit)="onSubmit(survivorForm)" #survivorForm="ngForm">
 
     <div class="field">
-      <label for="name">Name:</label>
+      <label for="name">Name</label>
       <input type="text" [(ngModel)]="nameModel" name="name" id="name" #name="ngModel" required/>
       <div class="alert" [hidden]="name.valid || name.pristine">Fill the name please</div>
     </div>
 
     <div class="field">
-      <label for="age">Age:</label>
+      <label for="age">Age</label>
       <input type="number" [(ngModel)]="ageModel" name="age" id="age" #age="ngModel" min="0" required/>
       <div class="alert" [hidden]="age.valid || age.pristine">Fill the age please</div>
     </div>
 
     <div class="field">
-      <label for="gender">Gender:</label>
+      <label for="gender">Gender</label>
       <select [(ngModel)]="genderModel" name="gender" id="gender" #gender="ngModel" required>
         <option *ngFor="let opt of genderOptions" [value]="opt.value">{{opt.name}}</option>
       </select>
