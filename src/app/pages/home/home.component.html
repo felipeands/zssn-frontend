@@ -5,6 +5,6 @@
     <button class="profile" (click)="onOpenProfile()">My Profile</button>
   </div>
 
-  <p>Dashboard.</p>
+  <p *ngIf="!profile">Dashboard</p>
 
 </div>
