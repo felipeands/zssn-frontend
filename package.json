@@ -1,10 +1,10 @@
 {
   "name": "zssn",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "license": "MIT",
   "angular-cli": {},
   "scripts": {
-    "start": "ng serve",
+    "start": "ng serve --prod",
     "lint": "tslint \"src/**/*.ts\"",
     "test": "ng test",
     "pree2e": "webdriver-manager update",
