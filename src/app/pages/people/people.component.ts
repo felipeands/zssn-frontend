@@ -28,11 +28,23 @@ export class PeopleComponent implements OnInit {
 
   ngOnInit() {
 
+    // subscribe for params change
     this.paramsSub = this.route.params.subscribe((params: any) => {
       if (params.id) {
+
+        // get people by id
         this.peopleService.getPeopleById(params.id).then((people: People) => {
+
+          // clear current profile
           this.clearPeople();
           this.people = people;
+
+          // verify survivor infected param
+          if (params.infected && params.infected === 'true') { 
+            this.people.infected = true; 
+          };
+
+          // verify if the profile is me
           this.peopleService.verifyItsMe(people).then((result: boolean) => {
             this.itsMe = result;
           });

@@ -6,18 +6,20 @@
 
     <div *ngIf="people">
 
-      <div class="people" *ngIf="people.name"><span class="name">{{people.name}}</span><span *ngIf="people.age">, {{people.age}}</span></div>
+      <div class="people" *ngIf="people.name"><span class="name">{{people.name}}</span><span *ngIf="people.age">, {{people.age}}</span><span></span></div>
+      
+      <p class="infected" *ngIf="people.infected">INFECTED</p>
 
       <p *ngIf="people.gender">{{people.gender | gender}}</p>
 
       <div class="identify">
         <button (click)="onIdentify()" [disabled]="itsMe">
-          <span *ngIf="people.gender == 'M'">Im he</span>
-          <span *ngIf="people.gender == 'F'">Im she</span>
+          <span *ngIf="people.gender == 'M'">Im him?</span>
+          <span *ngIf="people.gender == 'F'">Im her?</span>
         </button>
       </div>
 
-      <app-inventory [id]="people.id" [its-me]="itsMe"></app-inventory>
+      <app-inventory [id]="people.id" [its-me]="itsMe" [infected]="people.infected"></app-inventory>
 
       <div class="position">
 

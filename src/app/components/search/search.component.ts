@@ -82,7 +82,7 @@ export class SearchComponent implements OnInit {
 
   onOpenPeople(people: People) {
     this.resetSearch();
-    this.router.navigate(['/people', people.id]);
+    this.router.navigate(['/people', people.id, people.infected]);
   }
 
 }
