@@ -22,7 +22,7 @@ export class HomeComponent implements OnInit {
   }
 
   onOpenProfile() {
-    this.router.navigate(['/people', this.profile.id]);
+    this.router.navigate(['/people', this.profile.id, this.profile.infected]);
   }
 
 }
