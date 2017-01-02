@@ -13,8 +13,8 @@ declare var window: any;
 })
 export class MapComponent implements OnInit {
 
-  @Input("last-position") lastPosition: Position;
-  @Output("position") positionEvent: EventEmitter<any> = new EventEmitter();
+  @Input() lastPosition: Position;
+  @Output() positionEvent: EventEmitter<any> = new EventEmitter();
 
   public mapInitialized: boolean;
   public latLng: any;
@@ -22,7 +22,7 @@ export class MapComponent implements OnInit {
   public marker: any;
   public position: Position;
 
-  constructor() { 
+  constructor() {
     this.lastPosition = new Position('-23.5805651', '-46.6576507');
   }
 
@@ -34,23 +34,23 @@ export class MapComponent implements OnInit {
         this.initMap();
         this.addMarker(this.latLng);
         resolve();
-        
+
       });
     });
   }
 
   loadMap() {
     let sdk = this.loadSdk();
-    if (sdk == false) {
+    if (sdk === false) {
       setTimeout(() => {
         window.initMap();
-      }, 600)
+      }, 600);
     }
   }
 
   loadSdk() {
     let mapScript = document.getElementById('mapscript');
-    if (mapScript == undefined) {
+    if (mapScript === undefined) {
       let script = document.createElement('script');
       script.id = 'mapscript';
       script.type = 'text/javascript';
@@ -66,7 +66,7 @@ export class MapComponent implements OnInit {
     return new Promise(resolve => {
       window['initMap'] = () => {
         resolve(window);
-      }
+      };
     });
   }
 
@@ -82,7 +82,7 @@ export class MapComponent implements OnInit {
         navigator.geolocation.getCurrentPosition((pos: any) => {
           this.updatePosition(pos.coords.latitude, pos.coords.longitude);
           resolve(pos.coords);
-        })
+        });
       } else {
         reject();
       }
@@ -104,7 +104,7 @@ export class MapComponent implements OnInit {
       center: this.latLng,
       zoom: 14,
       mapTypeId: google.maps.MapTypeId.ROADMAP
-    }
+    };
     this.map = new google.maps.Map(document.getElementById('map'), mapOptions);
   }
 
@@ -141,7 +141,7 @@ export class MapComponent implements OnInit {
     this.getUpdatedPos().then(() => {
       this.map.setCenter(this.latLng);
       this.updateMarker();
-    })
+    });
   }
 
 }

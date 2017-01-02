@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { Http, Headers } from '@angular/http';
-import { LocalStorageService } from 'angular-2-local-storage';
 import { People } from '../../models/people';
 import { Position } from '../../models/position';
 import { Config } from '../../config';
@@ -11,8 +10,7 @@ export class PeopleService {
   private headers: Headers;
 
   constructor(
-    private http: Http,
-    private localStorage: LocalStorageService
+    private http: Http
   ) { }
 
   setHeaders() {
@@ -44,8 +42,8 @@ export class PeopleService {
       this.http.post(`${Config.api_people}.json`, data.join('&'), {
         headers: this.headers
       }).subscribe(
-        (res) => { resolve(this.processPeople(res.json())) },
-        (err) => { reject(err.json()) }
+        (res) => { resolve(this.processPeople(res.json())); },
+        (err) => { reject(err.json()); }
         );
     });
 
@@ -66,8 +64,8 @@ export class PeopleService {
       this.http.patch(`${Config.api_people}/${people.id}.json`, data.join('&'), {
         headers: this.headers
       }).subscribe(
-        (res) => { resolve(this.processPeople(res.json())) },
-        (err) => { reject(err.json()) }
+        (res) => { resolve(this.processPeople(res.json())); },
+        (err) => { reject(err.json()); }
         );
 
     });
@@ -119,14 +117,14 @@ export class PeopleService {
     return new Promise((resolve, reject) => {
 
       this.http.get(`${Config.api_people}/${id}.json`).subscribe(
-        (res) => { resolve(this.processPeople(res.json())) },
-        (err) => { reject() }
-      )
-    })
+        (res) => { resolve(this.processPeople(res.json())); },
+        (err) => { reject(); }
+      );
+    });
   }
 
   defineMe(people: People) {
-    this.localStorage.set('profile', JSON.stringify(people));
+    localStorage.setItem('profile', JSON.stringify(people));
   }
 
   verifyItsMe(people: People) {
@@ -135,27 +133,27 @@ export class PeopleService {
       let profile: any = this.getMyLocalProfile();
 
       if (profile) {
-        if (profile.id == people.id) {
+        if (profile.id === people.id) {
           resolve(true);
         } else {
           resolve(false);
         }
       }
 
-    })
+    });
   }
 
   getAll() {
     return new Promise((resolve, reject) => {
       this.http.get(`${Config.api_people}.json`).subscribe(
-        (res) => { resolve(this.processPeoples(res.json())) },
-        (err) => { reject() }
-      )
-    })
+        (res) => { resolve(this.processPeoples(res.json())); },
+        (err) => { reject(); }
+      );
+    });
   }
 
   getMyLocalProfile() {
-    let data: any = this.localStorage.get('profile');
+    let data: any = localStorage.getItem('profile');
     return (data) ? JSON.parse(data) : null;
   }
 

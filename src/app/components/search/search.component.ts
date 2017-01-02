@@ -34,11 +34,11 @@ export class SearchComponent implements OnInit {
           this.isSearching = false;
           this.processQueue();
           resolve();
-        })
+        });
       } else {
         resolve();
       }
-    })
+    });
   }
 
   onChange(ev) {
@@ -68,7 +68,7 @@ export class SearchComponent implements OnInit {
       if (people && people.name.match(new RegExp(value, 'i'))) {
         return people;
       }
-    })
+    });
   }
 
   resetResults() {

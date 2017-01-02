@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { PeopleService } from '../../providers/people/people.service';
 import { MapComponent } from '../../components/map/map.component';
@@ -6,13 +6,13 @@ import { MyInventoryComponent } from '../../components/my-inventory/my-inventory
 import { InventoryComponent } from '../../components/inventory/inventory.component';
 import { People } from '../../models/people';
 import { Position } from '../../models/position';
+import { GenderPipe } from '../../pipes/gender/gender.pipe';
 
 @Component({
   selector: 'app-people',
-  templateUrl: './people.component.html',
-  providers: [PeopleService]
+  templateUrl: './people.component.html'
 })
-export class PeopleComponent implements OnInit {
+export class PeopleComponent implements OnInit, OnDestroy {
 
   public people: People;
   public itsMe: boolean;
@@ -40,8 +40,8 @@ export class PeopleComponent implements OnInit {
           this.people = people;
 
           // verify survivor infected param
-          if (params.infected && params.infected === 'true') { 
-            this.people.infected = true; 
+          if (params.infected && params.infected === 'true') {
+            this.people.infected = true;
           };
 
           // verify if the profile is me
@@ -80,7 +80,7 @@ export class PeopleComponent implements OnInit {
 
   onUpdate() {
     this.people.lastPosition = this.position;
-    this.peopleService.update(this.people).then((res) => { })
+    this.peopleService.update(this.people).then((res) => { });
   }
 
 }

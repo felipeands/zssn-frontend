@@ -8,8 +8,7 @@ declare var google: any;
 
 @Component({
   selector: 'app-new',
-  templateUrl: './new.component.html',
-  providers: [PeopleService]
+  templateUrl: './new.component.html'
 })
 export class NewComponent implements OnInit {
 
@@ -48,7 +47,7 @@ export class NewComponent implements OnInit {
       this.submitted = false;
       this.router.navigate(['/people', people.id]);
     }, (err) => {
-      alert('It was not possible to register the survivor!')
+      alert('It was not possible to register the survivor!');
       this.submitted = false;
     });
 

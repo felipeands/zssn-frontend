@@ -19,7 +19,7 @@
         </button>
       </div>
 
-      <app-inventory [id]="people.id" [its-me]="itsMe" [infected]="people.infected"></app-inventory>
+      <app-inventory [id]="people.id" [itsMe]="itsMe" [infected]="people.infected"></app-inventory>
 
       <div class="position">
 
@@ -28,7 +28,7 @@
         </p>
 
         <div *ngIf="showMap">
-          <app-map [last-position]="people.lastPosition" (position)="updatePosition($event)"></app-map>
+          <app-map [lastPosition]="people.lastPosition" (position)="updatePosition($event)"></app-map>
         </div>
 
         <p *ngIf="showMap">
@@ -42,7 +42,7 @@
   </div>
 
   <aside>
-    <app-my-inventory [its-me]="itsMe"></app-my-inventory>
+    <app-my-inventory [itsMe]="itsMe"></app-my-inventory>
   </aside>
 
 </div>

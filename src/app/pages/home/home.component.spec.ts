@@ -4,25 +4,39 @@ import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
 
 import { HomeComponent } from './home.component';
+import { PeopleService } from '../../providers/people/people.service';
+
+import { ActivatedRoute, Router } from '@angular/router';
+import { MockActivatedRoute, MockRouter } from '../../mocks/routes';
+import { MockPeopleService } from '../../mocks/people.service';
 
 describe('HomeComponent', () => {
-  let component: HomeComponent;
-  let fixture: ComponentFixture<HomeComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ HomeComponent ]
-    })
-    .compileComponents();
-  }));
+  let mockPeopleService: MockPeopleService;
+  let mockActivatedRoute: MockActivatedRoute;
+  let mockRouter: MockRouter;
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(HomeComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
+
+    mockPeopleService = new MockPeopleService();
+    mockActivatedRoute = new MockActivatedRoute({ 'term': 'peyton' });
+    mockRouter = new MockRouter();
+
+    TestBed.configureTestingModule({
+      declarations: [HomeComponent],
+      providers: [
+        { provide: PeopleService, useValue: mockPeopleService },
+        { provide: ActivatedRoute, useValue: mockActivatedRoute },
+        { provide: Router, useValue: mockRouter }
+      ]
+    });
+
   });
 
-  it('should create', () => {
+  it('home component is running', () => {
+    let fixture = TestBed.createComponent(HomeComponent);
+    let component = fixture.debugElement.componentInstance;
+    fixture.detectChanges();
     expect(component).toBeTruthy();
   });
 });

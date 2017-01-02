@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, OnChanges, OnDestroy } from '@angular/core';
 import { InventoryService } from '../../providers/inventory/inventory.service';
 import { Inventory } from '../../models/inventory';
 
@@ -7,10 +7,10 @@ import { Inventory } from '../../models/inventory';
   templateUrl: './inventory.component.html',
   styleUrls: ['./inventory.component.scss']
 })
-export class InventoryComponent implements OnInit {
+export class InventoryComponent implements OnInit, OnChanges, OnDestroy {
 
   @Input() id: number;
-  @Input("its-me") itsMe: boolean;
+  @Input() itsMe: boolean;
   @Input() infected: boolean;
 
   public inventory: Inventory;
@@ -27,7 +27,7 @@ export class InventoryComponent implements OnInit {
       food: false,
       medication: false,
       water: false
-    }
+    };
   }
 
   ngOnInit() {
@@ -42,7 +42,7 @@ export class InventoryComponent implements OnInit {
       this.loadInventory().then(() => {
         this.resetTransaction();
       });
-    })
+    });
   }
 
   ngOnChanges() {
@@ -60,13 +60,13 @@ export class InventoryComponent implements OnInit {
       this.inventoryService.getInventoryById(this.id).then((inventory: Inventory) => {
         this.inventory = inventory;
         resolve();
-      })
-    })
+      });
+    });
   }
 
   ngOnDestroy() {
-    this.inventorySub.unsubscribe();
-    this.transactionSub.unsubscribe();
+    // this.inventorySub.unsubscribe();
+    // this.transactionSub.unsubscribe();
   }
 
   // verify if inventory type can trade
@@ -77,11 +77,32 @@ export class InventoryComponent implements OnInit {
   // update inventory type to allow trades
   updateCanGet() {
     this.canGet = {
-      ammunition: !this.infected && this.inventory.ammunition > 0 && this.verifyCanGetItem('ammunition', this.inventory.ammunition),
-      food: !this.infected && this.inventory.food > 0 && this.verifyCanGetItem('food', this.inventory.food),
-      medication: !this.infected && this.inventory.medication > 0 && this.verifyCanGetItem('medication', this.inventory.medication),
-      water: !this.infected && this.inventory.water > 0 && this.verifyCanGetItem('water', this.inventory.water)
+      ammunition: false,
+      food: false,
+      medication: false,
+      water: false
+    };
+
+    if (!this.infected && this.inventory) {
+
+      if (this.inventory.ammunition > 0 && this.verifyCanGetItem('ammunition', this.inventory.ammunition)) {
+        this.canGet.ammunition = true;
+      }
+
+      if (this.inventory.food > 0 && this.verifyCanGetItem('food', this.inventory.food)) {
+        this.canGet.food = true;
+      }
+
+      if (this.inventory.medication > 0 && this.verifyCanGetItem('medication', this.inventory.medication)) {
+        this.canGet.medication = true;
+      }
+
+      if (this.inventory.water > 0 && this.verifyCanGetItem('water', this.inventory.water)) {
+        this.canGet.water = true;
+      }
+
     }
+
   }
 
   // execute the trade transaction
@@ -93,10 +114,10 @@ export class InventoryComponent implements OnInit {
 
         // do the transaction 
         this.inventoryService.doTransaction(this.id, res.requestItems, res.offerItems).then(
-          (res) => { /* alert("Successfully transferred"); */ },
-          (err) => { alert("The transaction can't be processed."); }
-        )
-      })
+          (success) => { console.log('Successfully transferred'); },
+          (err) => { alert('The transaction can\'t be processed.'); }
+        );
+      });
     }
 
   }

@@ -4,25 +4,42 @@ import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
 
 import { InventoryComponent } from './inventory.component';
+import { InventoryService } from '../../providers/inventory/inventory.service';
+
+import { ActivatedRoute, Router } from '@angular/router';
+import { MockActivatedRoute, MockRouter } from '../../mocks/routes';
+import { MockInventoryService } from '../../mocks/inventory.service';
 
 describe('InventoryComponent', () => {
-  let component: InventoryComponent;
-  let fixture: ComponentFixture<InventoryComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ InventoryComponent ]
-    })
-    .compileComponents();
-  }));
+  let mockInventoryService: MockInventoryService;
+  let mockActivatedRoute: MockActivatedRoute;
+  let mockRouter: MockRouter;
+
+  // let component: InventoryComponent;
+  // let fixture: ComponentFixture<InventoryComponent>;
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(InventoryComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
+
+    mockInventoryService = new MockInventoryService();
+    mockActivatedRoute = new MockActivatedRoute({ 'term': 'peyton' });
+    mockRouter = new MockRouter();
+
+    TestBed.configureTestingModule({
+      declarations: [InventoryComponent],
+      providers: [
+        { provide: InventoryService, useValue: mockInventoryService },
+        { provide: ActivatedRoute, useValue: mockActivatedRoute },
+        { provide: Router, useValue: mockRouter }
+      ]
+    });
+
   });
 
   it('should create', () => {
-    expect(component).toBeTruthy();
+    let fixture = TestBed.createComponent(InventoryComponent);
+    let inventoryComponent = fixture.debugElement.componentInstance;
+    fixture.detectChanges();
+    expect(inventoryComponent).toBeTruthy();
   });
 });

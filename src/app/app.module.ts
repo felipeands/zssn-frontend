@@ -1,10 +1,9 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { RouterModule, PreloadAllModules } from '@angular/router';
 
-import { LocalStorageModule } from 'angular-2-local-storage';
 import { AppComponent } from './app.component';
 import { ROUTES } from './app.routes';
 
@@ -49,10 +48,8 @@ import { GenderPipe } from './pipes/gender/gender.pipe';
     HttpModule,
     FormsModule,
     BrowserModule,
-    LocalStorageModule.withConfig({ prefix: 'zssn', storageType: 'localStorage' }),
     RouterModule.forRoot(ROUTES, { useHash: true, preloadingStrategy: PreloadAllModules })
   ],
-  schemas: [CUSTOM_ELEMENTS_SCHEMA],
   providers: [PeopleService, ReportService, InventoryService],
   bootstrap: [AppComponent],
 })

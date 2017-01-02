@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, OnChanges } from '@angular/core';
 import { PeopleService } from '../../providers/people/people.service';
 import { InventoryService } from '../../providers/inventory/inventory.service';
 import { People } from '../../models/people';
@@ -9,9 +9,9 @@ import { Inventory } from '../../models/inventory';
   templateUrl: './my-inventory.component.html',
   styleUrls: ['./my-inventory.component.scss']
 })
-export class MyInventoryComponent implements OnInit {
+export class MyInventoryComponent implements OnInit, OnChanges {
 
-  @Input("its-me") itsMe: boolean;
+  @Input('itsMe') itsMe: boolean;
 
   public inventory: Inventory;
   private transactionSub: any;
@@ -33,7 +33,7 @@ export class MyInventoryComponent implements OnInit {
       this.loadInventory().then(() => {
         this.resetGive();
       });
-    })
+    });
   }
 
   ngOnChanges() {
@@ -49,9 +49,9 @@ export class MyInventoryComponent implements OnInit {
         this.inventoryService.getInventoryById(this.profile.id).then((inventory: Inventory) => {
           this.inventory = inventory;
           resolve();
-        })
+        });
       }
-    })
+    });
   }
 
   increase(type: string) {

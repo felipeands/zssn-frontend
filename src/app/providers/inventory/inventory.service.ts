@@ -32,17 +32,17 @@ export class InventoryService {
   getInventoryById(id: number) {
     return new Promise((resolve, reject) => {
       this.http.get(`${Config.api_people}/${id}/properties.json`).subscribe(
-        (res) => { resolve(this.processInventory(res.json())) },
-        (err) => { reject() }
-      )
-    })
+        (res) => { resolve(this.processInventory(res.json())); },
+        (err) => { reject(); }
+      );
+    });
   }
 
   processInventory(data: any) {
-    let ammunition = data.find((i: any) => { return i.item.name == 'Ammunition' });
-    let food = data.find((i: any) => { return i.item.name == 'Food' });
-    let medication = data.find((i: any) => { return i.item.name == 'Medication' });
-    let water = data.find((i: any) => { return i.item.name == 'Water' });
+    let ammunition = data.find((i: any) => { return i.item.name === 'Ammunition'; });
+    let food = data.find((i: any) => { return i.item.name === 'Food'; });
+    let medication = data.find((i: any) => { return i.item.name === 'Medication'; });
+    let water = data.find((i: any) => { return i.item.name === 'Water'; });
 
     return new Inventory(
       (ammunition) ? ammunition.quantity : 0,
@@ -53,7 +53,7 @@ export class InventoryService {
   }
 
   getItemPoints(type: string) {
-    return this.inventoryPoints.find((item: any) => { return item.name == type }).points;
+    return this.inventoryPoints.find((item: any) => { return item.name === type; }).points;
   }
 
   offerMyItems(items: Array<string>) {
@@ -85,7 +85,7 @@ export class InventoryService {
     // total of items
     let totalPoints: number = this.totalPoints(minItems);
 
-    if (totalPoints == 0) { return false }
+    if (totalPoints === 0) { return false; }
 
     // how much requested items need to trade with the minimum offered item
     let countRequestItems: number = this.calcMinItems(requiredPoints, totalPoints);
@@ -121,16 +121,16 @@ export class InventoryService {
       };
 
       resolve(result);
-    })
+    });
   }
 
   calcMinItems(requiredPoints: number, totalPoints: number) {
-    let countRequestItems: number = 1;
+    let countRequestItems = 1;
     while ((countRequestItems * requiredPoints) <= totalPoints) {
       countRequestItems++;
     }
     countRequestItems--;
-    return countRequestItems
+    return countRequestItems;
   }
 
   groupItems(items: Array<any>) {
@@ -157,25 +157,25 @@ export class InventoryService {
   }
 
   selectMinItems(requiredPoints: number, offerObjs: Array<any>) {
-    let sum: number = 0;
+    let sum = 0;
 
     let res: Array<any> = offerObjs.filter((item: any) => {
       if (requiredPoints > sum) {
         sum += item.value;
         return item;
       }
-    })
+    });
 
     return res;
   }
 
   totalPoints(items: Array<any>) {
-    return items.reduce((total: number, item: any) => { return item.value + total }, 0);
+    return items.reduce((total: number, item: any) => { return item.value + total; }, 0);
   }
 
   generateArrayItems(offerItems: Array<string>) {
-    let arr = offerItems.map((item: string) => { return { type: item, value: this.getItemPoints(item) } });
-    return arr.sort((a, b) => { return (a.value > b.value) ? 1 : ((b.value > a.value) ? -1 : 0) });
+    let arr = offerItems.map((item: string) => { return { type: item, value: this.getItemPoints(item) }; });
+    return arr.sort((a, b) => { return (a.value > b.value) ? 1 : ((b.value > a.value) ? -1 : 0); });
   }
 
   doTransaction(person_id: number, requestItems: Array<any>, offerItems: Array<any>) {
@@ -196,10 +196,9 @@ export class InventoryService {
           this.onDidTransaction();
           resolve();
         },
-        (err) => { reject() }
-        )
+        (err) => { reject(); });
 
-    })
+    });
   }
 
   capitalizeFirstLetter(text: string) {
@@ -207,7 +206,7 @@ export class InventoryService {
   }
 
   convertItems2Text(items: Array<any>) {
-    return items.map((item: any) => { return `${this.capitalizeFirstLetter(item.type)}:${item.quantity}` }).join(';');
+    return items.map((item: any) => { return `${this.capitalizeFirstLetter(item.type)}:${item.quantity}`; }).join(';');
   }
 
 }
