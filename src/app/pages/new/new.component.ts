@@ -4,8 +4,6 @@ import { PeopleService } from '../../providers/people/people.service';
 import { MapComponent } from '../../components/map/map.component';
 import { Position } from '../../models/position';
 
-declare var google: any;
-
 @Component({
   selector: 'app-new',
   templateUrl: './new.component.html'

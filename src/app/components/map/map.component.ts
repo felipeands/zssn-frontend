@@ -50,7 +50,7 @@ export class MapComponent implements OnInit {
 
   loadSdk() {
     let mapScript = document.getElementById('mapscript');
-    if (mapScript === undefined) {
+    if (!mapScript) {
       let script = document.createElement('script');
       script.id = 'mapscript';
       script.type = 'text/javascript';
